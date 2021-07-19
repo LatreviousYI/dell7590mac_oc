@@ -1,4 +1,6 @@
 # Dell-Inspiron-7590-Hackintosh-Opencore
+增加了intel 无线网卡驱动和蓝牙驱动
+
 OpenCore EFI for Dell Inspiron 759x.   _[English Version](https://github.com/Pinming/Dell-Inspiron-7590-Hackintosh-Opencore/blob/master/README.en.md)_       
 
 ✅ 当前 macOS 版本 `11.3 Beta 5` `(20E5217a)` / 当前 EFI 包版本 `21.3.18`  
@@ -32,10 +34,13 @@ OpenCore EFI for Dell Inspiron 759x.   _[English Version](https://github.com/Pin
 # 目前存在的 Bug
 - [x] ~启动间歇性出现卡 240s 问题~
 - [x] ~由于使用 EDID 注入，4K 机型目前只能启用 48Hz 刷新率。~
+    
     > 两款 4K 屏目前均不需要注入 EDID 即可以 60Hz 显示。
 - [ ] HDMI 热插拔不太完美，可能无法自动识别设备接入或移除
+    
     > 临时解决办法：接入 / 拔除 HDMI 线后，在 `系统偏好设置→显示器`界面下按住`Option`（即`Win`键），点击右下角「侦测显示器」重新侦测接入状况即可。
 - [ ] 1080P 机型下 HDMI 如果设置输出声音，可能导致 HDMI 输出异常
+    
     > 这样的异常可以通过使机器睡眠再唤醒而暂时解决。<br>对于 1080P 机型，输出声音与否通过 `DeviceProperties`->`PciRoot(0x0)/Pci(0x1f,0x3)` 中 `alc-device-id` 和 `alc-vendor-id` 的开闭来控制。如果不注入这两个参数则 HDMI 不会输出声音。<br>鉴于有一定数量朋友反馈输出声音会导致 HDMI 输出异常，自 `20.7.16` 版本起，这两个参数在 1080P 机型配置文件下默认被注释（即默认不输出声音）。如果愿意尝试，可以尝试去除条目前的 `#` 号开启这两个参数，当然并不保证能够成功，请自行测试。
 - [ ] 雷电接口尚未测试，不确定功能可用性
 - [ ] 内置麦克风无法使用【目前无解】
@@ -77,6 +82,7 @@ OpenCore EFI for Dell Inspiron 759x.   _[English Version](https://github.com/Pin
 ## 2020/5/3
 * 屏蔽 `SSDT-PLUG-_SB.PR00.aml`，确保 CPU 性能正常释放（PL1 = 45W / PL2 = 90W）
 * ~~更新 `WhateverGreen` 至 `1.3.9` 版本，增加 `igfxfw=2` 参数以使用 Apple GuC Firmware (GuC = Graphics microController)，增强集显性能~~
+    
     > 该更新会导致插入 HDMI 时 Kernel Panic，已回退该项更新。
 ## 2020/5/6
 ~~暂时回退 `WhateverGreen` 至 `1.3.8`，解决 HDMI 死机问题。~~
